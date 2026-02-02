@@ -1,184 +1,1010 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C++ 30 Day Challenge</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f9fbff;
-      color: #1a2a6c;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CleanTube - Distraction-Free YouTube Player</title>
+    <meta name="description" content="CleanTube provides a distraction-free YouTube viewing experience by removing comments, suggestions, and ads from videos.">
+    <style>
+        :root {
+            --golden: #DAA520;
+            --golden-light: #FFD700;
+            --text-dark: #000;
+            --text-light: #666;
+            --text-lighter: #999;
+            --border-light: #e0e0e0;
+            --bg-light: #f5f5f5;
+            --bg-white: #fff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
 
-    header {
-      background: #1a2a6c;
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    header img {
-      width: 50px;
-      height: 50px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            min-height: 100vh;
+        }
 
-    h1, h2 {
-      margin: 20px 0 10px;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 15px;
-      padding: 30px;
-      max-width: 800px;
-      margin: auto;
-    }
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    button {
-      padding: 15px;
-      border: 2px solid #1a2a6c;
-      border-radius: 10px;
-      background-color: white;
-      color: #1a2a6c;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--golden);
+        }
 
-    button.completed {
-      background-color: #1a2a6c;
-      color: white;
-    }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-    button:hover {
-      opacity: 0.9;
-    }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--golden);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-white);
+            font-weight: bold;
+        }
 
-    .topics, .projects {
-      max-width: 600px;
-      margin: 30px auto;
-      text-align: left;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    .topics label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 18px;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
+        .btn-primary {
+            background: var(--golden);
+            color: var(--bg-white);
+        }
 
-    input[type="checkbox"] {
-      transform: scale(1.3);
-      cursor: pointer;
-    }
+        .btn-primary:hover {
+            background: var(--golden-light);
+            transform: translateY(-2px);
+        }
 
-    .projects ul {
-      list-style: none;
-      padding: 0;
-    }
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
 
-    .projects li {
-      margin: 10px 0;
-    }
+        .btn-secondary:hover {
+            background: var(--border-light);
+        }
 
-    .projects a {
-      text-decoration: none;
-      color: #1a2a6c;
-      font-weight: bold;
-    }
+        /* Login Screen */
+        .login-screen {
+            text-align: center;
+            background: var(--bg-white);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            margin: 100px auto;
+        }
 
-    .projects a:hover {
-      color: #0077ff;
-    }
-  </style>
+        .login-screen h1 {
+            font-size: 48px;
+            color: var(--golden);
+            margin-bottom: 20px;
+        }
+
+        .login-screen p {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--golden);
+        }
+
+        /* URL Input */
+        .url-input {
+            background: var(--bg-white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .url-input h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .url-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .url-form input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .url-form input:focus {
+            outline: none;
+            border-color: var(--golden);
+        }
+
+        /* Video Player */
+        .video-section {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .video-info h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .video-info p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .controls-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Recent Videos */
+        .recent-videos {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .recent-videos h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recent-videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .video-card:hover {
+            border-color: var(--golden);
+            transform: translateY(-2px);
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .video-card h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-card p {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .video-card .time {
+            font-size: 11px;
+            color: var(--text-lighter);
+        }
+
+        /* Screenshot feature */
+        .screenshot-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screenshot-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .screenshot-button:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .url-form {
+                flex-direction: column;
+            }
+
+            .video-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .recent-videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading states */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            border-top-color: var(--golden);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Auto-resume notification */
+        .auto-resume-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-white);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-hover);
+            border-left: 4px solid var(--golden);
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .auto-resume-notification h4 {
+            margin-bottom: 5px;
+            color: var(--golden);
+        }
+
+        .auto-resume-notification p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .auto-resume-notification .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++ Logo">
-    <h1>C++ 30 Day Challenge</h1>
-  </header>
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-screen">
+            <h1>CleanTube</h1>
+            <p>Experience YouTube without distractions</p>
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="username">Enter your username:</label>
+                    <input type="text" id="username" name="username" required 
+                           placeholder="Enter your username" autocomplete="username">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Continue to CleanTube
+                </button>
+            </form>
+        </div>
 
-  <h2>Daily Progress</h2>
-  <div class="container" id="challenge-container"></div>
+        <!-- Main App -->
+        <div id="mainApp" class="hidden">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">CleanTube</div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span id="userName"></span>
+                    <button class="btn btn-secondary" onclick="app.logout()">
+                        Logout
+                    </button>
+                </div>
+            </div>
 
-  <h2>C++ Topics Checklist</h2>
-  <div class="topics" id="topics-list"></div>
+            <!-- URL Input -->
+            <div id="urlInputSection" class="url-input">
+                <h2>Enter YouTube Video URL</h2>
+                <form id="urlForm" class="url-form">
+                    <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+                    <button type="submit" class="btn btn-primary">
+                        Load Video
+                    </button>
+                </form>
+            </div>
 
-  <h2>Projects</h2>
-  <div class="projects">
-    <ul>
-      <li><a href="projects/expense-tracker.html">Expense Tracker</a></li>
-      <li><a href="projects/report-card.html">Student Report Card</a></li>
-      <li><a href="projects/todo.html">To-Do List</a></li>
-      <li><a href="projects/library.html">Library Management</a></li>
-      <li><a href="projects/quiz.html">Quiz Game</a></li>
-      <li><a href="projects/password.html">Password Generator</a></li>
-      <li><a href="projects/weather.html">Weather Data Analyzer</a></li>
-      <li><a href="projects/search-engine.html">Mini Search Engine</a></li>
-      <li><a href="projects/bank.html">Bank Account Simulator</a></li>
-    </ul>
-  </div>
+            <!-- Video Player -->
+            <div id="videoSection" class="video-section hidden">
+                <div class="video-header">
+                    <div class="video-info">
+                        <h2 id="videoTitle">Loading...</h2>
+                        <p id="videoChannel">Loading...</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="app.showHome()">
+                        ← Back to Home
+                    </button>
+                </div>
+                
+                <div class="video-container">
+                    <iframe id="videoIframe" class="video-iframe" allowfullscreen></iframe>
+                </div>
+                
+                <div class="video-controls">
+                    <div class="controls-left">
+                        <button class="btn btn-secondary" onclick="app.toggleFullscreen()">
+                            🔳 Fullscreen
+                        </button>
+                    </div>
+                    <div class="controls-right">
+                        <button id="screenshotBtn" class="btn btn-primary screenshot-button" onclick="app.takeScreenshot()">
+                            📸 Screenshot
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-  <script>
-    const container = document.getElementById("challenge-container");
-    const topicsList = document.getElementById("topics-list");
+            <!-- Recent Videos -->
+            <div id="recentVideosSection" class="recent-videos">
+                <h3>
+                    Recent Videos
+                    <button class="btn btn-secondary" onclick="app.clearHistory()">
+                        🗑️ Clear History
+                    </button>
+                </h3>
+                <div id="recentVideosGrid" class="recent-videos-grid">
+                    <!-- Recent videos will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-    let dayProgress = JSON.parse(localStorage.getItem("cppChallengeProgress")) || {};
-    let topicProgress = JSON.parse(localStorage.getItem("cppTopicProgress")) || {};
+    <!-- Auto-resume notification -->
+    <div id="autoResumeNotification" class="auto-resume-notification hidden">
+        <h4>Resume Last Video?</h4>
+        <p id="autoResumeText"></p>
+        <button class="btn btn-primary" onclick="app.resumeVideo()">Resume</button>
+        <button class="btn btn-secondary" onclick="app.dismissAutoResume()">Dismiss</button>
+    </div>
 
-    // 30 days buttons
-    for (let day = 1; day <= 30; day++) {
-      const btn = document.createElement("button");
-      btn.innerText = "Day " + day;
-      if (dayProgress[day]) btn.classList.add("completed");
+    <script>
+        class CleanTube {
+            constructor() {
+                this.currentVideo = null;
+                this.recentVideos = [];
+                this.isLoggedIn = false;
+                this.username = '';
+                this.autoResumeVideo = null;
+                this.init();
+            }
 
-      btn.addEventListener("click", () => {
-        btn.classList.toggle("completed");
-        dayProgress[day] = btn.classList.contains("completed");
-        localStorage.setItem("cppChallengeProgress", JSON.stringify(dayProgress));
-      });
+            init() {
+                this.loadUserData();
+                this.setupEventListeners();
+                this.handleUrlParameters();
+            }
 
-      container.appendChild(btn);
-    }
+            setupEventListeners() {
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('username').value.trim();
+                    if (username) {
+                        this.login(username);
+                    }
+                });
 
-    // Topics checklist
-    const topics = [
-      "Introduction & Setup", "Variables & Data Types", "Input / Output", "Operators",
-      "Control Statements", "Loops", "Functions", "Arrays", "Strings", "Pointers",
-      "Structures", "Classes & Objects", "Constructors & Destructors", "Inheritance",
-      "Polymorphism", "Encapsulation & Abstraction", "Templates",
-      "Exception Handling", "File Handling", "STL (Vectors, Maps, Sets)"
-    ];
+                document.getElementById('urlForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleUrlSubmit(e);
+                });
 
-    topics.forEach((topic, index) => {
-      const label = document.createElement("label");
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = topicProgress[index] || false;
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => this.handleKeydown(e));
+            }
 
-      checkbox.addEventListener("change", () => {
-        topicProgress[index] = checkbox.checked;
-        localStorage.setItem("cppTopicProgress", JSON.stringify(topicProgress));
-      });
+            showLogin() {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+            }
 
-      label.appendChild(checkbox);
-      label.append(topic);
-      topicsList.appendChild(label);
-    });
-  </script>
+            login(username) {
+                this.username = username;
+                this.isLoggedIn = true;
+                localStorage.setItem('cleanTubeUser', username);
+                this.updateUI();
+                this.loadRecentVideos();
+                this.handleUrlParameters();
+            }
+
+            logout() {
+                this.isLoggedIn = false;
+                this.username = '';
+                this.currentVideo = null;
+                this.recentVideos = [];
+                localStorage.removeItem('cleanTubeUser');
+                localStorage.removeItem('cleanTubeRecentVideos');
+                this.showLogin();
+            }
+
+            loadUserData() {
+                const savedUser = localStorage.getItem('cleanTubeUser');
+                if (savedUser) {
+                    this.username = savedUser;
+                    this.isLoggedIn = true;
+                    this.updateUI();
+                    this.loadRecentVideos();
+                } else {
+                    this.showLogin();
+                }
+            }
+
+            updateUI() {
+                if (this.isLoggedIn) {
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('mainApp').classList.remove('hidden');
+                    document.getElementById('userName').textContent = this.username;
+                    document.getElementById('userAvatar').textContent = this.username.charAt(0).toUpperCase();
+                } else {
+                    this.showLogin();
+                }
+            }
+
+            showHome() {
+                document.getElementById('urlInputSection').classList.remove('hidden');
+                document.getElementById('videoSection').classList.add('hidden');
+                document.getElementById('recentVideosSection').classList.remove('hidden');
+                this.currentVideo = null;
+                // Clear URL parameters
+                history.pushState({}, '', window.location.pathname);
+            }
+
+            handleUrlSubmit(e) {
+                e.preventDefault();
+                const url = document.getElementById('videoUrl').value.trim();
+                
+                if (!this.isValidYouTubeUrl(url)) {
+                    alert('Please enter a valid YouTube URL');
+                    return;
+                }
+
+                const videoId = this.extractVideoId(url);
+                if (videoId) {
+                    this.loadVideo(videoId, url);
+                }
+            }
+
+            isValidYouTubeUrl(url) {
+                const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+                return youtubeRegex.test(url);
+            }
+
+            extractVideoId(url) {
+                const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+                const match = url.match(regex);
+                return match ? match[1] : null;
+            }
+
+            async loadVideo(videoId, originalUrl) {
+                try {
+                    // Hide home sections and show video section
+                    document.getElementById('urlInputSection').classList.add('hidden');
+                    document.getElementById('recentVideosSection').classList.add('hidden');
+                    document.getElementById('videoSection').classList.remove('hidden');
+
+                    // Load video info
+                    const videoInfo = await this.fetchVideoInfo(videoId);
+                    
+                    // Set video information
+                    document.getElementById('videoTitle').textContent = videoInfo.title || 'YouTube Video';
+                    document.getElementById('videoChannel').textContent = videoInfo.channel || 'Unknown Channel';
+                    
+                    // Set iframe source
+                    const iframe = document.getElementById('videoIframe');
+                    iframe.src = this.createEmbedUrl(videoId);
+                    
+                    // Store current video
+                    this.currentVideo = {
+                        videoId: videoId,
+                        title: videoInfo.title,
+                        channel: videoInfo.channel,
+                        thumbnailUrl: videoInfo.thumbnailUrl,
+                        url: originalUrl,
+                        watchedAt: new Date()
+                    };
+
+                    // Add to recent videos
+                    this.addToRecentVideos(this.currentVideo);
+
+                    // Update URL with video ID
+                    history.pushState({}, '', `?v=${videoId}`);
+                    
+                    // Clear the input
+                    document.getElementById('videoUrl').value = '';
+                    
+                } catch (error) {
+                    console.error('Error loading video:', error);
+                    alert('Error loading video. Please try again.');
+                }
+            }
+
+            async fetchVideoInfo(videoId) {
+                try {
+                    // Since we can't access YouTube API directly, we'll use thumbnail and basic info
+                    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                    
+                    return {
+                        id: videoId,
+                        title: 'YouTube Video',
+                        channel: 'YouTube',
+                        thumbnailUrl: thumbnailUrl
+                    };
+                } catch (error) {
+                    console.error('Error fetching video info:', error);
+                    return {
+                        id: videoId,
+                        title: 'YouTube Video',
+                        channel: 'Unknown Channel',
+                        thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+                    };
+                }
+            }
+
+            createEmbedUrl(videoId) {
+                const params = new URLSearchParams({
+                    autoplay: '1',
+                    modestbranding: '1',
+                    rel: '0',
+                    showinfo: '0',
+                    iv_load_policy: '3',
+                    cc_load_policy: '0',
+                    fs: '1',
+                    controls: '1'
+                });
+                
+                return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+            }
+
+            addToRecentVideos(video) {
+                if (!this.isLoggedIn) return;
+                
+                // Remove if already exists
+                this.recentVideos = this.recentVideos.filter(v => v.videoId !== video.videoId);
+                
+                // Add to beginning
+                this.recentVideos.unshift(video);
+                
+                // Keep only last 10 videos
+                this.recentVideos = this.recentVideos.slice(0, 10);
+                
+                // Save to localStorage
+                localStorage.setItem('cleanTubeRecentVideos', JSON.stringify(this.recentVideos));
+                
+                // Update UI
+                this.renderRecentVideos();
+            }
+
+            loadRecentVideos() {
+                if (!this.isLoggedIn) return;
+                
+                const saved = localStorage.getItem('cleanTubeRecentVideos');
+                if (saved) {
+                    this.recentVideos = JSON.parse(saved);
+                }
+                
+                this.renderRecentVideos();
+            }
+
+            renderRecentVideos() {
+                const grid = document.getElementById('recentVideosGrid');
+                
+                if (this.recentVideos.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">No recent videos yet. Load a video to start building your history!</p>';
+                    return;
+                }
+                
+                grid.innerHTML = this.recentVideos.map(video => `
+                    <div class="video-card" onclick="app.loadVideo('${video.videoId}', '${video.url}')">
+                        <img src="${video.thumbnailUrl}" alt="${video.title}" onerror="this.style.display='none'">
+                        <h4>${video.title}</h4>
+                        <p>${video.channel}</p>
+                        <p class="time">${this.formatWatchedDate(new Date(video.watchedAt))}</p>
+                    </div>
+                `).join('');
+            }
+
+            formatWatchedDate(date) {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const watchedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                
+                // If watched today, show time
+                if (watchedDate.getTime() === today.getTime()) {
+                    return `Today at ${date.toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit', 
+                        hour12: true 
+                    })}`;
+                }
+                
+                // If watched yesterday
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+                if (watchedDate.getTime() === yesterday.getTime()) {
+                    return `Yesterday at ${date.toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit', 
+                        hour12: true 
+                    })}`;
+                }
+                
+                // For older dates, show the full date
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: now.getFullYear() !== date.getFullYear() ? 'numeric' : undefined
+                });
+            }
+
+            clearHistory() {
+                if (confirm('Are you sure you want to clear your video history?')) {
+                    this.recentVideos = [];
+                    localStorage.removeItem('cleanTubeRecentVideos');
+                    this.renderRecentVideos();
+                }
+            }
+
+            toggleFullscreen() {
+                const iframe = document.getElementById('videoIframe');
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            }
+
+            async takeScreenshot() {
+                if (!this.currentVideo) return;
+                
+                const button = document.getElementById('screenshotBtn');
+                const originalText = button.textContent;
+                button.textContent = '📸 Capturing...';
+                button.disabled = true;
+                
+                try {
+                    // Create canvas for screenshot
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Set canvas size
+                    canvas.width = 1280;
+                    canvas.height = 720;
+                    
+                    // Create background
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Load video thumbnail
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    
+                    await new Promise((resolve, reject) => {
+                        img.onload = () => {
+                            // Draw thumbnail
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            
+                            // Add CleanTube watermark and info overlay
+                            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                            ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
+                            
+                            // Add video title
+                            ctx.fillStyle = 'white';
+                            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.textAlign = 'left';
+                            const title = this.currentVideo.title || 'YouTube Video';
+                            const maxTitleWidth = canvas.width - 40;
+                            let displayTitle = title;
+                            if (ctx.measureText(title).width > maxTitleWidth) {
+                                displayTitle = title.substring(0, 60) + '...';
+                            }
+                            ctx.fillText(displayTitle, 20, canvas.height - 65);
+                            
+                            // Add channel name
+                            ctx.fillStyle = '#ccc';
+                            ctx.font = '18px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.fillText(this.currentVideo.channel || 'Unknown Channel', 20, canvas.height - 40);
+                            
+                            // Add CleanTube logo/text
+                            ctx.fillStyle = '#DAA520'; // Golden color
+                            ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.textAlign = 'right';
+                            ctx.fillText('CleanTube', canvas.width - 20, canvas.height - 15);
+                            
+                            // Add timestamp with note
+                            const now = new Date();
+                            ctx.fillStyle = '#888';
+                            ctx.font = '14px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.fillText(`Captured on ${now.toLocaleString()}`, canvas.width - 20, canvas.height - 40);
+                            
+                            // Add note about thumbnail capture
+                            ctx.fillStyle = '#999';
+                            ctx.font = '12px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.fillText('Note: This is a video thumbnail with overlay info', canvas.width - 20, canvas.height - 65);
+                            
+                            resolve();
+                        };
+                        
+                        img.onerror = () => {
+                            // Create fallback image
+                            ctx.fillStyle = '#DAA520';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            
+                            ctx.fillStyle = '#000';
+                            ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('CleanTube', canvas.width / 2, canvas.height / 2 - 50);
+                            
+                            ctx.font = '24px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.fillText(this.currentVideo.title, canvas.width / 2, canvas.height / 2 + 20);
+                            
+                            ctx.font = '16px -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif';
+                            ctx.fillText(new Date().toLocaleString(), canvas.width / 2, canvas.height / 2 + 60);
+                            
+                            resolve();
+                        };
+                        
+                        img.src = this.currentVideo.thumbnailUrl;
+                    });
+                    
+                    // Convert to blob and download
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `CleanTube-${this.currentVideo.title.replace(/[^a-zA-Z0-9]/g, '_')}-${Date.now()}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 'image/png');
+                    
+                } catch (error) {
+                    console.error('Screenshot failed:', error);
+                    alert('Failed to take screenshot. Please try again.');
+                } finally {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }
+            }
+
+            // Handle URL parameters or auto-resume last video
+            handleUrlParameters() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const videoId = urlParams.get('v');
+                
+                // If there's a video ID in URL, load it directly
+                if (videoId) {
+                    if (this.isLoggedIn) {
+                        const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+                        this.loadVideo(videoId, youtubeUrl);
+                    } else {
+                        // Store video ID for after login
+                        localStorage.setItem('cleanTubePendingVideo', videoId);
+                    }
+                    return;
+                }
+                
+                // Otherwise, auto-resume last video if user is logged in
+                this.autoResumeLastVideo();
+            }
+
+            // Auto-resume last video
+            autoResumeLastVideo() {
+                if (!this.isLoggedIn || this.recentVideos.length === 0) return;
+                
+                const lastVideo = this.recentVideos[0];
+                const now = new Date();
+                const lastWatched = new Date(lastVideo.watchedAt);
+                const hoursSinceWatched = (now - lastWatched) / (1000 * 60 * 60);
+                
+                // Only show auto-resume if last video was watched within 24 hours
+                if (hoursSinceWatched < 24) {
+                    this.autoResumeVideo = lastVideo;
+                    this.showAutoResumeNotification(lastVideo);
+                }
+            }
+
+            showAutoResumeNotification(video) {
+                const notification = document.getElementById('autoResumeNotification');
+                const text = document.getElementById('autoResumeText');
+                
+                text.textContent = `Continue watching "${video.title}" from ${this.formatWatchedDate(new Date(video.watchedAt))}?`;
+                notification.classList.remove('hidden');
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    this.dismissAutoResume();
+                }, 10000);
+            }
+
+            resumeVideo() {
+                if (this.autoResumeVideo) {
+                    this.loadVideo(this.autoResumeVideo.videoId, this.autoResumeVideo.url);
+                }
+                this.dismissAutoResume();
+            }
+
+            dismissAutoResume() {
+                document.getElementById('autoResumeNotification').classList.add('hidden');
+                this.autoResumeVideo = null;
+            }
+
+            // Keyboard shortcuts
+            handleKeydown(e) {
+                // Screenshot shortcut: Ctrl/Cmd + Shift + S
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'S') {
+                    e.preventDefault();
+                    this.takeScreenshot();
+                }
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new CleanTube();
+        });
+    </script>
 </body>
 </html>
