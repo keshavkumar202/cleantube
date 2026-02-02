@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ 30 Day Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f9fbff;
+      color: #1a2a6c;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1a2a6c;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header img {
+      width: 50px;
+      height: 50px;
+    }
+
+    h1, h2 {
+      margin: 20px 0 10px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 15px;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    button {
+      padding: 15px;
+      border: 2px solid #1a2a6c;
+      border-radius: 10px;
+      background-color: white;
+      color: #1a2a6c;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button.completed {
+      background-color: #1a2a6c;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .topics, .projects {
+      max-width: 600px;
+      margin: 30px auto;
+      text-align: left;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .topics label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.3);
+      cursor: pointer;
+    }
+
+    .projects ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .projects li {
+      margin: 10px 0;
+    }
+
+    .projects a {
+      text-decoration: none;
+      color: #1a2a6c;
+      font-weight: bold;
+    }
+
+    .projects a:hover {
+      color: #0077ff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++ Logo">
+    <h1>C++ 30 Day Challenge</h1>
+  </header>
+
+  <h2>Daily Progress</h2>
+  <div class="container" id="challenge-container"></div>
+
+  <h2>C++ Topics Checklist</h2>
+  <div class="topics" id="topics-list"></div>
+
+  <h2>Projects</h2>
+  <div class="projects">
+    <ul>
+      <li><a href="projects/expense-tracker.html">Expense Tracker</a></li>
+      <li><a href="projects/report-card.html">Student Report Card</a></li>
+      <li><a href="projects/todo.html">To-Do List</a></li>
+      <li><a href="projects/library.html">Library Management</a></li>
+      <li><a href="projects/quiz.html">Quiz Game</a></li>
+      <li><a href="projects/password.html">Password Generator</a></li>
+      <li><a href="projects/weather.html">Weather Data Analyzer</a></li>
+      <li><a href="projects/search-engine.html">Mini Search Engine</a></li>
+      <li><a href="projects/bank.html">Bank Account Simulator</a></li>
+    </ul>
+  </div>
+
+  <script>
+    const container = document.getElementById("challenge-container");
+    const topicsList = document.getElementById("topics-list");
+
+    let dayProgress = JSON.parse(localStorage.getItem("cppChallengeProgress")) || {};
+    let topicProgress = JSON.parse(localStorage.getItem("cppTopicProgress")) || {};
+
+    // 30 days buttons
+    for (let day = 1; day <= 30; day++) {
+      const btn = document.createElement("button");
+      btn.innerText = "Day " + day;
+      if (dayProgress[day]) btn.classList.add("completed");
+
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("completed");
+        dayProgress[day] = btn.classList.contains("completed");
+        localStorage.setItem("cppChallengeProgress", JSON.stringify(dayProgress));
+      });
+
+      container.appendChild(btn);
+    }
+
+    // Topics checklist
+    const topics = [
+      "Introduction & Setup", "Variables & Data Types", "Input / Output", "Operators",
+      "Control Statements", "Loops", "Functions", "Arrays", "Strings", "Pointers",
+      "Structures", "Classes & Objects", "Constructors & Destructors", "Inheritance",
+      "Polymorphism", "Encapsulation & Abstraction", "Templates",
+      "Exception Handling", "File Handling", "STL (Vectors, Maps, Sets)"
+    ];
+
+    topics.forEach((topic, index) => {
+      const label = document.createElement("label");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = topicProgress[index] || false;
+
+      checkbox.addEventListener("change", () => {
+        topicProgress[index] = checkbox.checked;
+        localStorage.setItem("cppTopicProgress", JSON.stringify(topicProgress));
+      });
+
+      label.appendChild(checkbox);
+      label.append(topic);
+      topicsList.appendChild(label);
+    });
+  </script>
+</body>
+</html>
